@@ -41,9 +41,9 @@ def start_local_server(port=8080) -> str:
 
 
 def connect_to_deezer(name: str) -> Tuple[str, str]:
-    access_token = os.getenv(f"API_TOKEN_{name}")
+    access_token = os.getenv(f"ACCESS_TOKEN_{name}")
     if not access_token:
-        print(f"Error: No API_TOKEN found for {name}. Please provide a valid Deezer access token with 'offline_access'.")
+        print(f"Error: No ACCESS_TOKEN found for {name}. Please provide a valid Deezer access token with 'offline_access'.")
         sys.exit(1)
     
     client = deezer.Client(access_token=access_token)
@@ -114,12 +114,12 @@ def save_access_token(name: str, token: str, yml_file: str = ".github/workflows/
     dotenv.load_dotenv(dotenv_file)
 
     # Update the variable in the .env file
-    API_Token_name = f"API_TOKEN_{name}"
+    ACCESS_TOKEN_name = f"ACCESS_TOKEN_{name}"
     Playlist_ID_name = f"PLAYLIST_ID_{name}"
-    dotenv.set_key(dotenv_file, API_Token_name, token)
+    dotenv.set_key(dotenv_file, ACCESS_TOKEN_name, token)
     dotenv.set_key(dotenv_file, Playlist_ID_name, "")  # Initialize the playlist ID to an empty string
     dotenv.load_dotenv(dotenv_file)
-    print(f"Environment variable {API_Token_name} updated in the .env file.")
+    print(f"Environment variable {ACCESS_TOKEN_name} updated in the .env file.")
 
     # Check and update the yml file
     if not os.path.exists(yml_file):
@@ -131,7 +131,7 @@ def save_access_token(name: str, token: str, yml_file: str = ".github/workflows/
         lines = file.readlines()
 
     # Prepare the secret strings to add
-    token_secret = f"        API_TOKEN_{name}: ${{{{ secrets.API_TOKEN_{name} }}}}\n"
+    token_secret = f"        ACCESS_TOKEN_{name}: ${{{{ secrets.ACCESS_TOKEN_{name} }}}}\n"
     playlist_secret = f"        PLAYLIST_ID_{name}: ${{{{ secrets.PLAYLIST_ID_{name} }}}}\n"
 
     # Find the correct 'env' block under 'Run the script to update the playlist'
@@ -179,7 +179,7 @@ def remove_accents(input_str: str) -> str:
 def main():
     name = remove_accents(input("Enter the name of the user: ")).upper()
 
-    access_token = os.getenv(f"API_TOKEN_{name}")
+    access_token = os.getenv(f"ACCESS_TOKEN_{name}")
 
     if access_token:
         print(f"An access token for {name} already exists. Trying to connect...")

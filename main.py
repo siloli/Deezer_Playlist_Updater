@@ -30,7 +30,7 @@ class RateLimiter:
 def connect_to_deezer(access_token:int) -> Tuple[deezer.Client, deezer.User]:
 	
 	if not access_token:
-		print("Error: No API_TOKEN found. Please provide a valid Deezer access token with 'offline_access'.")
+		print("Error: No ACCESS_TOKEN found. Please provide a valid Deezer access token with 'offline_access'.")
 		sys.exit(1)
 
 	client = deezer.Client(access_token)
@@ -215,7 +215,7 @@ if __name__ == "__main__":
         names = names[1:-1].split(", ") # split the string into a list
         names = [name[1:-1] for name in names] # remove the quotes
         for name in names:
-            access_token = os.getenv(f"API_TOKEN_{name}")
+            access_token = os.getenv(f"ACCESS_TOKEN_{name}")
             playlist_id = os.getenv(f"PLAYLIST_ID_{name}")
             main(access_token,playlist_id)
         print("Finished !")

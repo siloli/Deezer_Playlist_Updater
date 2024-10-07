@@ -2,6 +2,7 @@
 # Deezer_Playlist_Updater 🎶
 
 This project uses the [Deezer API](https://developers.deezer.com/api) to fetch new releases from followed artists and automatically updates a daily playlist. The script is set up to run with GitHub Actions, either on a scheduled basis or manually.
+This is a template repository designed to be forked and run independently using GitHub Actions on your private repos.
 
 ## Features
 
@@ -11,9 +12,9 @@ This project uses the [Deezer API](https://developers.deezer.com/api) to fetch n
 
 ## Requirements
 
-1. **Deezer API Access**: You will need to create an application via the official [Deezer developers page](https://developers.deezer.com/myapps).
+1. **Deezer API Access**: You will need to create an application via the official [Deezer developers page](https://developers.deezer.com/myapps) to get `DEEZER_APP_ID` and `DEEZER_SECRET_TOKEN`.
 2. **Python**: Make sure you have Python 3.x installed on your machine.
-3. **User Access Token**: You will need a Deezer access token with the `offline_access` permission for unlimited access (run `access_token.py` to generate this token).
+3. **User Access Token**: Generate a `ACCESS_TOKEN` with the `offline_access` permission by running `access_token.py`. This script requires `DEEZER_APP_ID` and `DEEZER_SECRET_TOKEN`. Once the token is generated, `DEEZER_APP_ID` and `DEEZER_SECRET_TOKEN` are no longer needed.
 4. **Dependencies**: The project uses several Python libraries, which can be installed via the `requirements.txt` file.
 
 ## Installation
@@ -40,9 +41,19 @@ This project uses the [Deezer API](https://developers.deezer.com/api) to fetch n
     ```bash
     DEEZER_APP_ID=your_app_id
     DEEZER_SECRET_TOKEN=your_secret_token
-    API_TOKEN=your_deezer_access_token
-    PLAYLIST_ID=your_playlist_id
     ```
+
+5. Run locally `access_token.py` and `main.py` once, to get your `ACCESS_TOKEN` and your `PLAYLIST_ID`. You can run `access_token.py` more than once to process for your friends.
+    ```bash
+    python access_token.py
+    python main.py
+    ```
+
+6. Now you can update your `.github/workflows/main.yml` on your fork and add your secrets. In your private repository, go to **Settings > Secrets and variables > Actions**, and add your own secrets for Deezer access.
+    - Add secrets for:
+        - `ACCESS_TOKEN_YOURNAME`
+        - `PLAYLIST_ID_YOURNAME`
+        - `NAMES`
 
 ## Running Locally
 
@@ -56,16 +67,6 @@ python main.py
 
 This public repository is designed to allow users to **fork** it and create their own private version to securely store their secrets.
 
-### Steps for Forking
-
-1. **Fork this repository**: Use the GitHub fork option to create your own version of this repository.
-2. **Create a private repository**: After forking, set your fork to private to keep your secrets secure.
-3. **Set up your secrets**: In your private repository, go to **Settings > Secrets and variables > Actions**, and add your own secrets for Deezer access.
-    - Add secrets for:
-        - `API_TOKEN_YOURNAME`
-        - `PLAYLIST_ID_YOURNAME`
-        - `NAMES`: The list of user names.
-
 ### Updating the GitHub Actions Workflow
 
 After adding your secrets, make sure the workflow YAML file (in `.github/workflows/main.yml`) references your own secrets:
@@ -75,7 +76,7 @@ After adding your secrets, make sure the workflow YAML file (in `.github/workflo
       run: |
         python main.py
       env:
-        API_TOKEN_YOURNAME: ${{ secrets.API_TOKEN_YOURNAME }}
+        ACCESS_TOKEN_YOURNAME: ${{ secrets.ACCESS_TOKEN_YOURNAME }}
         PLAYLIST_ID_YOURNAME: ${{ secrets.PLAYLIST_ID_YOURNAME }}
         NAMES: ${{ secrets.NAMES }}
 ```
