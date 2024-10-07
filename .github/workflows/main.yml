@@ -1,0 +1,32 @@
+name: Update Deezer Playlist
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Run the workflow every day at 8:00 UTC
+  workflow_dispatch:  # Trigger the workflow manually
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run the script to update the playlist
+      run: |
+        python main.py
+      env:
+        NAMES: ${{ secrets.NAMES }}
