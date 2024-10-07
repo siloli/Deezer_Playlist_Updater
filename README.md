@@ -20,8 +20,8 @@ This project uses the [Deezer API](https://developers.deezer.com/api) to fetch n
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-user/fresh-tracks-deezer.git
-    cd fresh-tracks-deezer
+    git clone https://github.com/your-user/Deezer_Playlist_Updater.git
+    cd Deezer_Playlist_Updater
     ```
 
 2. Create and activate a virtual environment:
